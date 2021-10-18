@@ -6,10 +6,14 @@ describe("CalculatorService", () => {
   // Specification
   it("should add two number", () => {
     // creating a fake version of logger service by creating a new instance of it
-    const logger = new LoggerService();
+    // const logger = new LoggerService();
 
     // jasmine will take the original spied object and beside calling the original functionality, it replaces the methods with a mock one instead of using it original one
-    spyOn(logger, "log");
+    // spyOn(logger, "log");
+
+    // if we want to do the above steps with  a single line using jasmine.createSpyObj() method then
+    const logger = jasmine.createSpyObj('LoggerService', ['log']);
+
 
     const calculator = new CalculatorService(logger);
 
