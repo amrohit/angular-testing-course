@@ -17,6 +17,8 @@ describe("CoursesCardListComponent", () => {
   // will bring lots of feature which will be needed to test the component
   let fixture: ComponentFixture<CoursesCardListComponent>;
 
+  let el: DebugElement;
+
   //init our test
   // async is going to wait for this asynchornou operation triggered by the below code and async is going to wait for 5 sec
   beforeEach(async () => {
@@ -32,6 +34,8 @@ describe("CoursesCardListComponent", () => {
         fixture = TestBed.createComponent(CoursesCardListComponent);
 
         component = fixture.componentInstance;
+
+        el = fixture.debugElement;
       });
   });
 
@@ -44,7 +48,15 @@ describe("CoursesCardListComponent", () => {
   });
 
   it("should display the course list", () => {
-    pending();
+    // pending();
+
+    component.courses = setupCourses();
+
+    const cards = el.queryAll(By.css(".course-card"));
+
+    expect(cards).toBeTruthy("Could not find cards");
+
+    expect(cards.length).toBe(12, "Unexpected number of courses");
   });
 
   it("should display the first course", () => {
