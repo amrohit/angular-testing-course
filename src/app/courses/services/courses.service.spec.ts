@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { COURSES } from "../../../../server/db-data";
+import { COURSES, findCourseById } from '../../../../server/db-data';
 import { CoursesService } from "./courses.service";
 describe("CoursesService", () => {
   let coursesService: CoursesService,
@@ -34,4 +34,12 @@ describe("CoursesService", () => {
     // passing some test data to our mock request
     req.flush({ payload: Object.values(COURSES) });
   });
+
+    it("should find a course by id", () => {
+      coursesService.findCourseById(12).subscribe((course) => {
+        expect(course).toBeTruthy("No courses returned");
+        expect(course.id).toBe(12, "incorrect course id");
+
+       
+    });
 });
