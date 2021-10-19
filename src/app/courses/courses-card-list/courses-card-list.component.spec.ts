@@ -1,52 +1,53 @@
-import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { COURSES } from '../../../../server/db-data';
-import { setupCourses } from '../common/setup-test-data';
-import { CoursesModule } from '../courses.module';
-import { sortCoursesBySeqNo } from '../home/sort-course-by-seq';
-import { Course } from '../model/course';
-import { CoursesCardListComponent } from './courses-card-list.component';
+import { DebugElement } from "@angular/core";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { COURSES } from "../../../../server/db-data";
+import { setupCourses } from "../common/setup-test-data";
+import { CoursesModule } from "../courses.module";
+import { sortCoursesBySeqNo } from "../home/sort-course-by-seq";
+import { Course } from "../model/course";
+import { CoursesCardListComponent } from "./courses-card-list.component";
 
+describe("CoursesCardListComponent", () => {
+  // series of variables will be used throughout the test
 
+  let component: CoursesCardListComponent;
 
-
-describe('CoursesCardListComponent', () => {
-
+  // test uility type for obtainng/debugging the compoent
+  // will bring lots of feature which will be needed to test the component
+  let fixture: ComponentFixture<CoursesCardListComponent>;
 
   //init our test
-  beforeEach(() => {
-
+  // async is going to wait for this asynchornou operation triggered by the below code and async is going to wait for 5 sec
+  beforeEach(async () => {
     //setting up testing module and provide the dependencies
 
     TestBed.configureTestingModule({
-
-      imports: [CoursesModule]
-
-
+      imports: [CoursesModule],
     })
-  })
-  it("should create the component", () => {
+      .compileComponents()
+      .then(() => {
+        //setup of our test
 
-   pending();
+        fixture = TestBed.createComponent(CoursesCardListComponent);
 
+        component = fixture.componentInstance;
+      });
   });
 
+  it("should create the component", () => {
+    // pending();
+
+    expect(component).toBeTruthy();
+
+    console.log(component);
+  });
 
   it("should display the course list", () => {
-
     pending();
-
   });
-
 
   it("should display the first course", () => {
-
-      pending();
-
+    pending();
   });
-
-
 });
-
-
