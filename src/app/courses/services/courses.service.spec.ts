@@ -33,6 +33,8 @@ describe("CoursesService", () => {
     expect(req.request.method).toEqual("GET");
     // passing some test data to our mock request
     req.flush({ payload: Object.values(COURSES) });
+
+    httpTestingController.verify();
   });
 
   it("should find a course by id", () => {
@@ -46,5 +48,13 @@ describe("CoursesService", () => {
     expect(req.request.method).toEqual("GET");
 
     req.flush(COURSES[12]);
+
+    httpTestingController.verify();
+  });
+
+  //
+
+  afterEach(() => {
+    httpTestingController.verify();
   });
 });
