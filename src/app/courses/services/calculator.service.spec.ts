@@ -1,3 +1,4 @@
+import { TestBed } from "@angular/core/testing";
 import { CalculatorService } from "./calculator.service";
 import { LoggerService } from "./logger.service";
 
@@ -15,6 +16,20 @@ describe("CalculatorService", () => {
     console.log("calling beforeEach");
     loggerSpy = jasmine.createSpyObj("LoggerService", ["log"]);
     calculator = new CalculatorService(loggerSpy);
+
+    // instead of initializing the instances by calling constructor explicitly
+    // we can provide depedency injection here using testbed utility
+
+    TestBed.configureTestingModule({
+      providers: [
+        CalculatorService, // using Real instance of calculator service
+        // using angular dependency mechanism to swap actual implementation of dependencies by jasmine
+        { provide: LoggerService, useValue: loggerSpy }, //Since we are not using actual instance
+        // Logger service is dependency of CalculatorService
+      ],
+    });
+    // TestBed.get in deprecated
+    calculator = TestBed.inject(CalculatorService);
   });
 
   // Specification (and each test are independent and does not interfere with each other)
