@@ -4,6 +4,7 @@ import {
 } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { COURSES, findCourseById } from "../../../../server/db-data";
+import { Course } from "../model/course";
 import { CoursesService } from "./courses.service";
 describe("CoursesService", () => {
   let coursesService: CoursesService,
@@ -52,7 +53,31 @@ describe("CoursesService", () => {
     httpTestingController.verify();
   });
 
-  //
+  it("should save the course data", () => {
+    const changes: Partial<Course> = {
+      titles: { description: "Testing Course" },
+    };
+
+    coursesService.saveCourse(12, changes).subscribe((course) => {
+      expect(course.id).toBe(12);
+    });
+
+    const req = httpTestingController.expectOne("/api/courses/12");
+
+    expect(req.request.method).toEqual("PUT");
+
+    expect(req.request.body.titles.description).toEqual(
+      changes.titles.description
+    );
+
+    // what would server return after saving the data in db
+    req.flush({
+      ...COURSES[12],
+      ...changes,
+    });
+  });
+
+  //will be called after each spec got executed
 
   afterEach(() => {
     httpTestingController.verify();
