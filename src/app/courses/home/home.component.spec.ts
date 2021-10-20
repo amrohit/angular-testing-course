@@ -27,6 +27,11 @@ describe("HomeComponent", () => {
   let fixture: ComponentFixture<HomeComponent>;
   let component: HomeComponent;
   let el: DebugElement;
+  let coursesService: any;
+
+  const beginnerCourses = setupCourses().filter(
+    (course) => course.category == "BEGINNER"
+  );
 
   // using to compile our component
   beforeEach(
@@ -49,6 +54,7 @@ describe("HomeComponent", () => {
           fixture = TestBed.createComponent(HomeComponent);
           component = fixture.componentInstance;
           el = fixture.debugElement;
+          coursesService = TestBed.inject(CoursesService);
         });
     })
   );
@@ -58,7 +64,18 @@ describe("HomeComponent", () => {
   });
 
   it("should display only beginner courses", () => {
-    pending();
+    // pending();
+    // coursesService.findAllCourses.and.returnValue(
+    //   setupCourses().filter((course) => course.category == "BEGINNER")
+    // );
+    // need to return observable
+    coursesService.findAllCourses.and.returnValue(of(beginnerCourses));
+
+    fixture.detectChanges();
+
+    const tabs = el.queryAll(By.css(".mat-tab-label"));
+
+    expect(tabs.length).toBe(1, "Unexpected number of tabs found");
   });
 
   it("should display only advanced courses", () => {
