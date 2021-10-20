@@ -1,4 +1,5 @@
 import { fakeAsync, flush, tick } from "@angular/core/testing";
+import { of } from "rxjs";
 fdescribe("Async Testing Examples", () => {
   it("Asynchronous test example with Jasmine done()", (done: DoneFn) => {
     let test = false;
@@ -32,4 +33,20 @@ fdescribe("Async Testing Examples", () => {
     flush();
     expect(test).toBeTruthy();
   }));
+
+  it("Asynchornous test example - Observable", () => {
+    let test = false;
+
+    console.log("Creating observable");
+
+    const test$ = of(test);
+
+    test$.subscribe(() => {
+      test = true;
+    });
+
+    console.log("Running test assertions");
+
+    expect(test).toBe(true);
+  });
 });
