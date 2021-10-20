@@ -33,6 +33,10 @@ describe("HomeComponent", () => {
     (course) => course.category == "BEGINNER"
   );
 
+  const advancedCourses = setupCourses().filter(
+    (course) => course.category == "ADVANCED"
+  );
+
   // using to compile our component
   beforeEach(
     waitForAsync(() => {
@@ -79,11 +83,27 @@ describe("HomeComponent", () => {
   });
 
   it("should display only advanced courses", () => {
-    pending();
+    // pending();
+
+    coursesService.findAllCourses.and.returnValue(of(advancedCourses));
+
+    fixture.detectChanges();
+
+    const tabs = el.queryAll(By.css(".mat-tab-label"));
+
+    expect(tabs.length).toBe(1, "Unexpected number of tabs found");
   });
 
   it("should display both tabs", () => {
-    pending();
+    // pending();
+
+    coursesService.findAllCourses.and.returnValue(of(setupCourses()));
+
+    fixture.detectChanges();
+
+    const tabs = el.queryAll(By.css(".mat-tab-label"));
+
+    expect(tabs.length).toBe(2, "Expected 2 tabs to be found!");
   });
 
   it("should display advanced courses when tab clicked", () => {
