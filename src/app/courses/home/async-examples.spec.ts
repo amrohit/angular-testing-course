@@ -1,5 +1,6 @@
-import { fakeAsync, flush, tick } from "@angular/core/testing";
+import { fakeAsync, flush, flushMicrotasks, tick } from "@angular/core/testing";
 import { of } from "rxjs";
+import { delay } from "rxjs/operators";
 fdescribe("Async Testing Examples", () => {
   it("Asynchronous test example with Jasmine done()", (done: DoneFn) => {
     let test = false;
@@ -34,19 +35,40 @@ fdescribe("Async Testing Examples", () => {
     expect(test).toBeTruthy();
   }));
 
-  it("Asynchornous test example - Observable", () => {
+  it("Asynchronous test example - plain Promise", fakeAsync(() => {
+    let test = false;
+
+    console.log("Creating promise");
+
+    Promise.resolve().then(() => {
+      console.log("Promise evaluated successfully");
+
+      test = true;
+    });
+
+    flushMicrotasks(); //Promise is microtask
+    //Setimeout is considered to be a task or macro task
+    console.log("Running test assertions");
+
+    expect(test).toBeTruthy();
+  }));
+
+  // to fix this issue we will use fakeAsync zone
+  it("Asynchronous test example - Observable", fakeAsync(() => {
     let test = false;
 
     console.log("Creating observable");
 
-    const test$ = of(test);
+    // const test$ = of(test); //purely synchronous observable
+    const test$ = of(test).pipe(delay(1000)); // async observable
 
     test$.subscribe(() => {
       test = true;
     });
 
+    tick(1000); // moving the time forward by 1000
     console.log("Running test assertions");
 
     expect(test).toBe(true);
-  });
+  }));
 });
