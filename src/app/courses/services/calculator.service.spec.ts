@@ -15,7 +15,7 @@ describe("CalculatorService", () => {
   beforeEach(() => {
     console.log("calling beforeEach");
     loggerSpy = jasmine.createSpyObj("LoggerService", ["log"]);
-    calculator = new CalculatorService(loggerSpy);
+    // calculator = new CalculatorService(loggerSpy); //if not using TestBed.inject()
 
     // instead of initializing the instances by calling constructor explicitly
     // we can provide depedency injection here using testbed utility
